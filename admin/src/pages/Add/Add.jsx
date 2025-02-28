@@ -8,10 +8,10 @@ const Add = () => {
     const url = "http://localhost:4000";
     const [image, setImage] = useState(false);
     const [data, setData] =useState({
-        name:'',
-        description:'',
-        price:0,
-        category:'Salad',
+        name:"",
+        description:"",
+        price:"",
+        category:"Salad"
     })
 
     const onChangeHandler = (event) => {
@@ -27,27 +27,29 @@ const Add = () => {
     const onSubmitHandler = async (event) => {
         event.preventDefault();
         const formData = new FormData();
-        formData.append('name', data.name);
-        formData.append('description', data.description);
-        formData.append('price', Number(data.price));
-        formData.append('category', data.category);
-        formData.append('image', image);
-        const response = await axios.post(`${url}/api/food/add`, formData);
-        console.log(response);
+        formData.append("name", data.name)
+        formData.append("description", data.description)
+        formData.append("price", data.price)
+        formData.append("category", data.category)
+        formData.append("image", image)
+        const response = await axios.post(`${url}/api/food/add`, formData)
         if (response.data.success) {
             setData({
-                name:'',
-                description:'',
-                price:0,
-                category:'Salad',
+                name:"",
+                description:"",
+                price:"",
+                category:"Salad"
             })
-            setImage(null)
-        } 
+            setImage(false)
+        }
+        else {
+            console.log("Failed to add product")
+        }
     };
 
   return (
     <div className='add'>
-      <form onSubmit={onSubmitHandler} className='flex-col'>
+      <form className='flex-col' onSubmit={onSubmitHandler}>
         <div className="add-img-upload flex-col" >
             <p>Upload Image</p>
             <label htmlFor="image">
