@@ -4,9 +4,8 @@ import { assets } from '../../assets/assets'
 import axios from "axios";
 import { toast } from 'react-toastify';
 
-const Add = () => {
+const Add = ({url}) => {
 
-    const url = "http://localhost:4000";
     const [image, setImage] = useState(false);
     const [data, setData] =useState({
         name:"",
@@ -21,9 +20,6 @@ const Add = () => {
         setData(data=>({...data,[name]:value}))
     }
 
-    useEffect(()=>{
-        console.log(data)
-    },[data])
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
