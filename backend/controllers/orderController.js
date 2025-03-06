@@ -42,11 +42,12 @@ const placeOrder = async (req, res) => {
         })
 
         const session = await stripe.checkout.sessions.create({
-            line_items:line_items,
-            mode:'payment',
-            success_url:`${frontend_url}/verify?success=true&orderId=${newOrder._id}`,
-            success_url:`${frontend_url}/verify?success=false&orderId=${newOrder._id}`,
-        })
+            line_items: line_items,
+            mode: 'payment',
+            success_url: `${frontend_url}/verify?success=true&orderId=${newOrder._id}`,
+            cancel_url: `${frontend_url}/verify?success=false&orderId=${newOrder._id}`, // Should be cancel_url, not success_url
+        });
+        
         res.json({
             success:true,
             session_url:session.url
@@ -61,4 +62,30 @@ const placeOrder = async (req, res) => {
     }
 }
 
-export {placeOrder}
+// verifying order by frontend
+const verifyOrder = async (req,res) => {
+    const {orderId, success} = req.body;
+    try {
+        if (success=="true") {
+            await orderModel.findByIdAndUpdate(orderId,{payment:'true'})
+            res.json({
+                success:true,
+                message:"Order placed successfully"
+            })
+        } else {
+            await orderModel.findByIdAndDelete(orderId)
+            res.json({
+                success:false,
+                message:"Failed to place order"
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            message:"Error"
+        })
+    }
+}
+
+export {placeOrder, verifyOrder}
