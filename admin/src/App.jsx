@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from './components/Navbar/Navbar';
-import Sidebar from './components/sidebar/Sidebar';
+import SideBar from './components/Sidebar/SideBar';
 import { Routes, Route } from 'react-router-dom';
 import Add from './pages/Add/Add';
 import List from './pages/List/List';
@@ -19,7 +19,7 @@ const App = () => {
       <Navbar />
       <hr />
       <div className="app-content">
-        <Sidebar />
+        <SideBar />
         <Routes>
           <Route path="/add" element={<Add url={url}/>} />   {/* ✅ Correct */}
           <Route path="/list" element={<List url={url}/>} /> {/* ✅ Correct */}
